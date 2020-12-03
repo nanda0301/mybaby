@@ -1,0 +1,691 @@
+/*
+  App mostrar o peso de um bebê durante a gestação.
+  Referências:
+  - [Programador BR] https://www.youtube.com/watch?v=hOsSDTxzrKQ
+  - Prof. Eduardo Ono
+*/
+
+import 'package:flutter/material.dart';
+
+class Gestante {
+  // Atributos
+  String _nome;
+  int _semana;
+  double _pesobb;
+
+  // Construtor
+  Gestante(this._nome, this._semana) {
+    this._pesobb = calcularpesobb(this._semana);
+  }
+
+  // Métodos
+  double calcularpesobb(int _semana) {
+    if (_semana <= 8) {
+      this._pesobb = 1;
+    } 
+    else if (_semana == 9) {
+      this._pesobb = 2;
+    }
+     else if (_semana == 10) {
+      this._pesobb = 4;
+    }
+     else if (_semana == 11) {
+      this._pesobb = 7;
+    }
+     else if (_semana == 12) {
+      this._pesobb = 14;
+    }
+     else if (_semana == 13) {
+      this._pesobb = 23;
+    }
+     else if (_semana == 14) {
+      this._pesobb = 43;
+    }
+     else if (_semana == 15) {
+      this._pesobb = 70;
+    }
+     else if (_semana == 16) {
+      this._pesobb = 100;
+    }
+     else if (_semana == 17) {
+      this._pesobb = 140;
+    }
+     else if (_semana == 18) {
+      this._pesobb = 190;
+    }
+     else if (_semana == 19) {
+      this._pesobb = 240;
+    }
+     else if (_semana == 20) {
+      this._pesobb = 300;
+    }
+     else if (_semana == 21) {
+      this._pesobb = 360;
+    }
+     else if (_semana == 22) {
+      this._pesobb = 430;
+    }
+     else if (_semana == 23) {
+      this._pesobb = 501;
+    }
+     else if (_semana == 24) {
+      this._pesobb = 600;
+    }
+     else if (_semana == 25) {
+      this._pesobb = 660;
+    }
+     else if (_semana == 26) {
+      this._pesobb = 760;
+    }
+     else if (_semana == 27) {
+      this._pesobb = 875;
+    }
+     else if (_semana == 28) {
+      this._pesobb = 1005;
+    }
+     else if (_semana == 29) {
+      this._pesobb = 1153;
+    }
+     else if (_semana == 30) {
+      this._pesobb = 1319;
+    }
+     else if (_semana == 31) {
+      this._pesobb = 1502;
+    }
+     else if (_semana == 32) {
+      this._pesobb = 1702;
+    }
+     else if (_semana == 33) {
+      this._pesobb = 1918;
+    }
+     else if (_semana == 34) {
+      this._pesobb = 2146;
+    }
+     else if (_semana == 35) {
+      this._pesobb = 2383;
+    }
+      else if (_semana == 36) {
+      this._pesobb = 2622;
+    }
+      else if (_semana == 37) {
+      this._pesobb = 2859;
+    }
+      else if (_semana == 38) {
+      this._pesobb = 3083;
+    }
+      else if (_semana == 39) {
+      this._pesobb = 3288;
+    }
+    return _pesobb;
+  }
+}
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  final List<Gestante> lista = [];
+
+  // Construtor
+  MyApp() {
+    Gestante gestante1 = Gestante("Natália", 12);
+    Gestante gestante2 = Gestante("Patrícia", 28);
+    lista.add(gestante1);
+    lista.add(gestante2);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: "App de Gestação",
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: HomePage(lista),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  final List<Gestante> lista;
+
+  // Construtor
+  HomePage(this.lista);
+
+  @override
+  _HomePageState createState() => _HomePageState(lista);
+}
+
+class _HomePageState extends State<HomePage> {
+  final List<Gestante> lista;
+
+  // Construtor
+  _HomePageState(this.lista);
+
+  // Métodos
+  void _atualizarTela() {
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // This method is rerun every time setState is called, for instance as done
+    // by the _incrementCounter method above.
+    return Scaffold(
+      drawer: NavDrawer(lista),
+      appBar: AppBar(
+        title: Text("Gestantes (${lista.length})"),
+      ),
+      body: ListView.builder(
+          itemCount: lista.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Text(
+                "${lista[index]._nome}",
+                style: TextStyle(fontSize: 18.0),
+              ),
+              onTap: () {},
+            );
+          }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _atualizarTela,
+        tooltip: 'Atualizar',
+        child: Icon(Icons.update),
+      ),
+    );
+  }
+}
+
+class NavDrawer extends StatelessWidget {
+  // Atributos
+  final List lista;
+  final double _fontSize = 17.0;
+
+  // Construtor
+  NavDrawer(this.lista);
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          // Opcional
+          DrawerHeader(
+            child: Text(
+              "Menu",
+              style: TextStyle(color: Colors.white, fontSize: 25),
+            ),
+            decoration: BoxDecoration(color: Colors.purple),
+          ),
+          ListTile(
+            leading: Icon(Icons.person),
+            title: Text(
+              "Informações da Gestante",
+              style: TextStyle(fontSize: _fontSize),
+            ),
+            onTap: () {
+              Navigator.pop(context); // Fecha o Drawer
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TelaInformacoesDaGestante(lista),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.person_add_alt_1_sharp),
+            title: Text(
+              "Cadastrar uma nova gestante",
+              style: TextStyle(fontSize: _fontSize),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TelaCadastrarGestante(lista),
+                ),
+              );
+            },
+          ),
+          Container(
+            padding: EdgeInsets.all(20.0),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: ListTile(
+              leading: Icon(Icons.face),
+              title: Text(
+                "About",
+style: TextStyle(fontSize: _fontSize),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TelaAbout(lista),
+                ),
+              );
+            },
+          ),
+         ),
+         ],
+         ),
+         );
+  }
+}
+
+//-----------------------------------------------------------------------------
+// Tela Informações da Gestante
+//-----------------------------------------------------------------------------
+
+class TelaInformacoesDaGestante extends StatefulWidget {
+  final List<Gestante> lista;
+
+  // Construtor
+  TelaInformacoesDaGestante(this.lista);
+
+  @override
+  _TelaInformacoesDaGestante createState() => _TelaInformacoesDaGestante(lista);
+}
+
+class _TelaInformacoesDaGestante extends State<TelaInformacoesDaGestante> {
+  // Atributos
+  final List lista;
+  Gestante gestante;
+  int index = -1;
+  double _fontSize = 18.0;
+  final nomeController = TextEditingController();
+  final semanaController = TextEditingController();
+  final pesobbController = TextEditingController();
+  bool _edicaoHabilitada = false;
+
+  // Construtor
+  _TelaInformacoesDaGestante(this.lista) {
+    if (lista.length > 0) {
+      index = 0;
+      gestante = lista[0];
+      nomeController.text = gestante._nome;
+      semanaController.text = gestante._semana.toString();
+      pesobbController.text = gestante._pesobb.toStringAsFixed(1);
+    }
+  }
+
+  // Métodos
+  void _exibirRegistro(index) {
+    if (index >= 0 && index < lista.length) {
+      this.index = index;
+      gestante = lista[index];
+      nomeController.text = gestante._nome;
+      semanaController.text = gestante._semana.toString();
+      pesobbController.text = gestante._pesobb.toStringAsFixed(1);
+      setState(() {});
+    }
+  }
+
+  void _atualizarDados() {
+    if (index >= 0 && index < lista.length) {
+      _edicaoHabilitada = false;
+      lista[index]._nome = nomeController.text;
+      lista[index]._semanas = nomeController.text;
+      lista[index]._pesobb = lista[index].calcularpesobb();
+      setState(() {});
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var titulo = "Informações da Gestante";
+    if (gestante == null) {
+      return Scaffold(
+        appBar: AppBar(title: Text(titulo)),
+        body: Column(
+          children: <Widget>[
+            Text("Nenhuma gestante encontrada!"),
+            Container(
+              color: Colors.purple,
+              child: BackButton(),
+            ),
+          ],
+        ),
+      );
+    }
+    return Scaffold(
+      appBar: AppBar(title: Text(titulo)),
+      body: Container(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topRight,
+              child: FloatingActionButton(
+                heroTag: null,
+                onPressed: () {
+                  _edicaoHabilitada = true;
+                  setState(() {});
+                },
+                tooltip: 'Primeiro',
+                child: Text("Hab. Edição"),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: TextField(
+                enabled: _edicaoHabilitada,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Nome",
+                  // hintText: "Nome da Gestante",
+                ),
+                style: TextStyle(fontSize: _fontSize),
+                controller: nomeController,
+              ),
+            ),
+            // --- Semana de gestação ---
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: TextField(
+                enabled: _edicaoHabilitada,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Semana",
+                  // hintText: 'Semana de gestação',
+                ),
+                style: TextStyle(fontSize: _fontSize),
+                controller: semanaController,
+              ),
+            ),
+            
+            // --- Peso do bebê (desabilitado) ---
+            Padding(
+              padding: EdgeInsets.fromLTRB(5, 5, 5, 20),
+              child: TextField(
+                enabled: false,
+                // keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Peso do bebê",
+                  hintText: "Peso do bebê",
+                ),
+                style: TextStyle(fontSize: _fontSize),
+                controller: pesobbController,
+              ),
+            ),
+            RaisedButton(
+              child: Text(
+                "Atualizar Dados",
+                style: TextStyle(fontSize: _fontSize),
+              ),
+              onPressed: _atualizarDados,
+            ),
+            Text(
+              "[${index + 1}/${lista.length}]",
+              style: TextStyle(fontSize: 15.0),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <FloatingActionButton>[
+                  FloatingActionButton(
+                    heroTag: null,
+                    onPressed: () => _exibirRegistro(0),
+                    tooltip: 'Primeiro',
+                    child: Icon(Icons.first_page),
+                  ),
+                  FloatingActionButton(
+                    heroTag: null,
+                    onPressed: () => _exibirRegistro(index - 1),
+                    tooltip: 'Primeiro',
+                    child: Icon(Icons.navigate_before),
+                  ),
+                  FloatingActionButton(
+                    heroTag: null,
+                    onPressed: () => _exibirRegistro(index + 1),
+                    tooltip: 'Primeiro',
+                    child: Icon(Icons.navigate_next),
+                  ),
+                  FloatingActionButton(
+                    heroTag: null,
+                    onPressed: () => _exibirRegistro(lista.length - 1),
+                    tooltip: 'Primeiro',
+                    child: Icon(Icons.last_page),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//-----------------------------------------------------------------------------
+// Tela About
+//-----------------------------------------------------------------------------
+
+class TelaAbout extends StatefulWidget {
+  final List<Gestante> lista;
+
+  // Construtor
+  TelaAbout(this.lista);
+
+  @override
+  _TelaAbout createState() => _TelaAbout(lista);
+}
+
+class _TelaAbout extends State<TelaAbout> {
+  // Atributos
+  final List lista;
+  Gestante gestante;
+  int index = -1;
+  double _fontSize = 18.0;
+  final nomeController = TextEditingController();
+  final semanaController = TextEditingController();
+  final pesobbController = TextEditingController();
+
+  // Construtor
+  _TelaAbout(this.lista) {
+    if (lista.length > 0) {
+      index = 0;
+      gestante = lista[0];
+      nomeController.text = gestante._nome;
+      semanaController.text = gestante._semana.toString();
+      pesobbController.text = gestante._pesobb.toStringAsFixed(1);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var titulo = "About the author";
+    if (gestante == null) {
+      return Scaffold(
+        appBar: AppBar(title: Text(titulo)),
+        body: Center(
+        child: Column(
+          children: <Widget>[
+            Text(""),
+            Container(
+              color: Colors.purple,
+              child: BackButton(),
+            ),
+          ],
+        ),
+      ),
+      );
+    }
+    return Scaffold(
+      appBar: AppBar(title: Text(titulo)),
+      body: Container(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topRight,
+            ),
+            Theme(
+              data: Theme.of(context).copyWith(splashColor:                         Colors.transparent),
+              child: TextField(
+                decoration: InputDecoration(
+                  fillColor: Colors.purple[100],
+                   filled: true,
+                    contentPadding:
+                     EdgeInsets.only(bottom: 200, left: 1, right: 1),
+                  labelText: 
+      "Fernanda Drumond é graduanda em Análise e Desenvolvimento\n\n"       "de Sistemas pela UNISAL. A ideia de fazer um aplicativo para\n\n"        
+      "consulta do peso de um bebê durante a gestação surgiu quando\n\n"             
+      "sua irmã Izabel estava grávida de sua sobrinha Júlia.\n\n",
+                  ),
+                  // hintText: "",
+                
+                style: TextStyle(fontSize: _fontSize),
+              ),
+            ),
+           
+            Text(
+              "",
+              style: TextStyle(fontSize: 25.0),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                ),
+                ],
+                ),
+                ),
+                );
+  }
+}
+
+
+//-----------------------------------------------------------------------------
+// Tela: Cadastrar Gestante
+// ----------------------------------------------------------------------------
+
+class TelaCadastrarGestante extends StatefulWidget {
+  final List<Gestante> lista;
+
+  // Construtor
+  TelaCadastrarGestante(this.lista);
+
+  @override
+  _TelaCadastrarGestanteState createState() =>
+      _TelaCadastrarGestanteState(lista);
+}
+
+class _TelaCadastrarGestanteState extends State<TelaCadastrarGestante> {
+  // Atributos
+  final List<Gestante> lista;
+  String _nome = "";
+  int _semana = 0;
+  double _fontSize = 20.0;
+  final nomeController = TextEditingController();
+  final semanaController = TextEditingController();
+  final pesobbController = TextEditingController();
+
+  // Construtor
+  _TelaCadastrarGestanteState(this.lista);
+
+  // Métodos
+  void _cadastrarGestante() {
+    _nome = nomeController.text;
+    _semana = int.parse(semanaController.text);
+    if (_semana > 0) {
+      var _gestante = Gestante(_nome, _semana);
+      lista.add(_gestante);
+      // _index = lista.length - 1;
+      nomeController.text = "";
+      semanaController.text = "";
+      pesobbController.text = "${_gestante._pesobb} gramas";
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Digite seus dados para ver o peso do seu bebê"),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: Text(
+                "Importante! Seu bebê começa a ter peso a partir da 8a semana\n\n"
+               
+                "Dados da Gestante:",
+                style: TextStyle(fontSize: _fontSize),
+              ),
+            ),
+            // --- Nome da Gestante ---
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Nome",
+                  // hintText: "Nome da Gestante",
+                ),
+                style: TextStyle(fontSize: _fontSize),
+                controller: nomeController,
+              ),
+            ),
+            // --- Semana de Gestação ---
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: TextField(
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Semanas de gestação",
+                  // hintText: 'Semanas de gestação',
+                ),
+                style: TextStyle(fontSize: _fontSize),
+                controller: semanaController,
+              ),
+            ),
+            // --- (desabilitado) ---
+            Padding(
+              padding: EdgeInsets.fromLTRB(5, 5, 5, 20),
+              child: TextField(
+                enabled: false,
+                // keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Peso atual do seu bebê",
+                  hintText: "Peso atual do seu bebê",
+                ),
+                style: TextStyle(fontSize: _fontSize),
+                controller: pesobbController,
+              ),
+            ),
+            // Saída
+            RaisedButton(
+              child: Text(
+                "Mostre o peso do meu bebê",
+                style: TextStyle(fontSize: _fontSize),
+              ),
+              onPressed: _cadastrarGestante,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
